@@ -1,4 +1,4 @@
-package org.shahzheeb;
+package org.shahzheeb.encryption.aes;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
