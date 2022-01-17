@@ -18,7 +18,7 @@ public class RSA256Encryption {
     public static void main(String[] args) {
         try {
             KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-            generator.initialize(256);
+            generator.initialize(2048);
             KeyPair keyPair = generator.generateKeyPair();
 
             //Create PEM Files of pub/priv keys
