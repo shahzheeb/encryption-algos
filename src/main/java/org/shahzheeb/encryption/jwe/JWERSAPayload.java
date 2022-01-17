@@ -1,8 +1,8 @@
-package org.shahzheeb.encryption.jws;
+package org.shahzheeb.encryption.jwe;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.RSADecrypter;
+import com.nimbusds.jose.crypto.RSAEncrypter;
 
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -11,42 +11,33 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.text.ParseException;
 import java.util.Base64;
-import java.util.Date;
-import java.util.UUID;
 
-public class JWSRSASigned {
-    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
+public class JWERSAPayload {
+    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, JOSEException, ParseException {
 
-        long timetolive = 10000;
+        Payload payload = new Payload("hello world payload");
+        JWEHeader header = new JWEHeader(JWEAlgorithm.RSA_OAEP_256, EncryptionMethod.A128CBC_HS256);
+        JWEObject jwe = new JWEObject(header, payload);
 
-        JwtBuilder jws = Jwts.builder()
-                .claim("name", "shahzheeb")
-                .claim("usename", "khan123")
-                .setSubject("LearnJWS")
-                .setId(UUID.randomUUID().toString())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + timetolive))
-                .signWith(getRSAPrivateKey());
+        RSAEncrypter encrypter = new RSAEncrypter(getRSAPublicKey());
+        jwe.encrypt(encrypter);
 
-        String jws_string = jws.compact();
-        System.out.println("JWS Token:"+jws_string);
+        String encrypted_value = jwe.serialize();
+        System.out.println("Encrypted :"+encrypted_value);
 
+        System.out.println("************************ JWE DECRYPTION **********************");
 
-        System.out.println("************************ JWS VERIFICATION AND READING **********************");
+        RSADecrypter decrypter = new RSADecrypter(getRSAPrivateKey());
+        JWEObject jwe_receiver = JWEObject.parse(encrypted_value);
+        jwe_receiver.decrypt(decrypter);
 
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getRSAPublicKey())
-                .build()
-                .parseClaimsJws(jws_string)
-                .getBody();
-
-        System.out.println(claims.getId());
-        System.out.println(claims.get("name"));
-        System.out.println(claims.get("usename"));
+        System.out.println(jwe_receiver.getPayload().toString());
 
     }
-    
+
+
     private static RSAPrivateKey getRSAPrivateKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
         String privateKey = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC1i/qeK5VplFPC" +
                 "EAYEI+jddJMle+ZqPU+CgboBK89ybsYpgH+t0LuMSksdQcDhlOwu+F4dLtixVVNt" +
