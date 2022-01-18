@@ -1,10 +1,9 @@
-package org.shahzheeb.encryption.rsa;
+package org.shahzheeb.cryptography.rsa;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.KeyUse;
 import com.nimbusds.jose.jwk.RSAKey;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Key;
 import java.security.KeyPair;

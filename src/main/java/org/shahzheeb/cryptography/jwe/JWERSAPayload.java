@@ -1,4 +1,4 @@
-package org.shahzheeb.encryption.jwe;
+package org.shahzheeb.cryptography.jwe;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.RSADecrypter;

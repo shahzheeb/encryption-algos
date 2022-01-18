@@ -1,4 +1,4 @@
-package org.shahzheeb.encryption.aes;
+package org.shahzheeb.cryptography.aes;
 
 import static org.junit.Assert.assertTrue;
 

@@ -1,4 +1,4 @@
-package org.shahzheeb.encryption.jws;
+package org.shahzheeb.cryptography.jws;
 
 
 import io.jsonwebtoken.Claims;
@@ -45,9 +45,6 @@ public class JWSHMACSigned {
         System.out.println(claims.getId());
         System.out.println(claims.get("name"));
         System.out.println(claims.get("usename"));
-
-
-
 
     }
 

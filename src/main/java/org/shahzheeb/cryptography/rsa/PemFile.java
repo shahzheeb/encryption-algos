@@ -1,4 +1,4 @@
-package org.shahzheeb.encryption.rsa;
+package org.shahzheeb.cryptography.rsa;
 
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemWriter;
